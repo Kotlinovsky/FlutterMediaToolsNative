@@ -1,0 +1,6 @@
+[submodule "deps/FFmpeg"]
+	path = deps/FFmpeg
+	url = https://github.com/FFmpeg/FFmpeg.git
+[submodule "deps/googletest"]
+	path = deps/googletest
+	url = https://github.com/google/googletest.git
