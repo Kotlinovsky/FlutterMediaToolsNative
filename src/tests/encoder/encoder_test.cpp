@@ -31,18 +31,6 @@ TEST(EncoderTest, FileAlreadyExists) {
     delete cfg;
 }
 
-TEST(EncoderTest, CodecNotFound) {
-    auto cfg = new encoder_stream_audio_codec_cfg{32000, 2, AV_CH_LAYOUT_STEREO,
-                                                  AVSampleFormat::AV_SAMPLE_FMT_FLTP};
-    std::map<int, encoder_stream_cfg> streams{{0, encoder_stream_cfg{AV_CODEC_ID_MP2, cfg}}};
-
-    void *context = nullptr;
-    EXPECT_EQ(encoder_init(&context, "test.aac", streams), ENCODER_CODECS_INITIALIZATION_ERROR);
-    EXPECT_EQ(context, nullptr);
-    EXPECT_FALSE(std::filesystem::exists("test.aac"));
-    delete cfg;
-}
-
 TEST(EncoderTest, SuccessInitAndFree) {
     auto cfg = new encoder_stream_audio_codec_cfg{32000, 2, AV_CH_LAYOUT_STEREO,
                                                   AVSampleFormat::AV_SAMPLE_FMT_FLTP};
