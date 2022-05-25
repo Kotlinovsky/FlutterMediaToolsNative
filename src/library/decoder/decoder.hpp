@@ -21,7 +21,7 @@ int decoder_init(void **ctx_ref,
 
 // Выполняет декодирование
 int decoder_decode(void *ctx_ref,
-                   const std::function<bool(const uint8_t **, size_t)> &handle_frame);
+                   const std::function<bool(const uint8_t **, size_t, int64_t)> &handle_frame);
 
 // Выдает частоту дискретизации потока с указанным индексом
 int decoder_get_sample_rate(void *ctx_ref, size_t stream_index);

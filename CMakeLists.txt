@@ -13,8 +13,8 @@ IF (UNIX)
             --disable-everything
             --disable-network
             --disable-autodetect
-            --enable-demuxer=wav,ogg,mp3
-            --enable-decoder=pcm*,opus,vorbis,flac,mp3
+            --enable-demuxer=wav,ogg,mp3,aac
+            --enable-decoder=pcm*,opus,vorbis,flac,mp3,aac
             --enable-muxer=adts
             --enable-encoder=aac
             --enable-filter=aresample
@@ -49,7 +49,10 @@ add_library(flutter_media_tools_native SHARED
         src/library/transcoder/transcoder_errors.hpp
         src/library/buffer/buffer.cpp
         src/library/buffer/buffer.hpp
-        src/library/buffer/internal/buffer_context.hpp)
+        src/library/buffer/internal/buffer_context.hpp
+        src/library/inspector/inspector.cpp
+        src/library/inspector/inspector.hpp
+        src/library/inspector/inspector_errors.hpp)
 target_link_libraries(flutter_media_tools_native
         ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libavcodec.a
         ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libavdevice.a
@@ -68,6 +71,7 @@ add_executable(flutter_media_tools_native_tests
         src/tests/encoder/encoder_test.cpp
         src/tests/resampler/resampler_test.cpp
         src/tests/transcoder/transcoder_test.cpp
+        src/tests/inspector/inspector_test.cpp
         src/tests/helpers/resources_helper.cpp
         src/tests/helpers/resources_helper.hpp
         src/tests/main.cpp)

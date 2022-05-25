@@ -53,7 +53,7 @@ bool resample_and_encode_audio(const uint8_t **data,
 bool transcode_audio(void *dec_ctx, void *sampler_ctx, void *enc_ctx, void *buf_ctx) {
     while (true) {
         int res = decoder_decode(dec_ctx, [&sampler_ctx, &enc_ctx, &buf_ctx](const uint8_t **data,
-                                                                             int data_len) {
+                                                                             int data_len, auto) {
           return resample_and_encode_audio(data, data_len, sampler_ctx, enc_ctx, buf_ctx);
         });
 

@@ -61,7 +61,7 @@ TEST(DecoderTest, UnexpectedErrorWhenCallbackReturnsFalse) {
 
     while (last_result >= 0) {
         last_result =
-            decoder_decode(ctx_ref, [](const uint8_t **data, size_t len) { return false; });
+            decoder_decode(ctx_ref, [](const uint8_t **data, size_t len, auto) { return false; });
     }
 
     EXPECT_EQ(last_result, DECODER_UNEXPECTED_ERROR);
@@ -101,7 +101,7 @@ void check_decoding(const std::string &in_path,
     int last_result = 0;
 
     while (last_result >= 0) {
-        last_result = decoder_decode(ctx_ref, [&buffer, rows_count](auto data, size_t len) {
+        last_result = decoder_decode(ctx_ref, [&buffer, rows_count](auto data, size_t len, auto) {
           for (int i = 0; i < rows_count; i++) {
               buffer[i].insert(buffer[i].end(), data[i], data[i] + len);
           }

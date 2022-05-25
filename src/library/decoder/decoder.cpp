@@ -143,7 +143,7 @@ int decoder_init(void **ctx_ref,
 }
 
 int decoder_decode(void *ctx_ref,
-                   const std::function<bool(const uint8_t **, size_t)> &handle_frame) {
+                   const std::function<bool(const uint8_t **, size_t, int64_t)> &handle_frame) {
     auto *casted_ctx = static_cast<decoder_ctx *>(ctx_ref);
     int read_frame_result = av_read_frame(casted_ctx->format_ctx, casted_ctx->packet);
 
@@ -212,7 +212,7 @@ int decoder_decode(void *ctx_ref,
                 bytes_count *= casted_ctx->frame->channels;
             }
 
-            bool result = handle_frame(const_data, bytes_count);
+            bool result = handle_frame(const_data, bytes_count, pts);
             av_frame_unref(casted_ctx->frame);
 
             if (!result) {
