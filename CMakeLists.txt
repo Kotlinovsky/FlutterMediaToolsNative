@@ -3,32 +3,33 @@ project(flutter_media_tools_native)
 set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-Bsymbolic")
 set(CMAKE_CXX_STANDARD 20)
 
-IF (UNIX)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
-    SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-    SET(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+message("Target system name: ${CMAKE_SYSTEM_NAME}")
+message("Target system architecture: ${CMAKE_SYSTEM_PROCESSOR}")
 
-    EXECUTE_PROCESS(
+# Compile FFmpeg
+IF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+    set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+
+    execute_process(
             COMMAND ./configure
             --prefix="${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg"
             --disable-everything
-            --disable-network
             --disable-autodetect
+            --disable-network
             --enable-demuxer=wav,ogg,mp3,aac
             --enable-decoder=pcm*,opus,vorbis,flac,mp3,aac
             --enable-muxer=adts
             --enable-encoder=aac
             --enable-filter=aresample
             --enable-protocol=file
-            --disable-doc
             --disable-ffmpeg
             --disable-ffplay
             --disable-ffprobe
-            --disable-vaapi
-            --disable-vdpau
-            --disable-zlib
+            --disable-doc
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/deps/FFmpeg/)
-    EXECUTE_PROCESS(COMMAND make -j install WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/deps/FFmpeg/)
+    execute_process(COMMAND make -j install WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/deps/FFmpeg/)
 ENDIF ()
 
 add_library(flutter_media_tools_native SHARED
@@ -64,7 +65,12 @@ target_link_libraries(flutter_media_tools_native
         ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libswscale.a)
 target_include_directories(flutter_media_tools_native INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/include)
 
+# Stripping
+add_custom_command(TARGET flutter_media_tools_native
+                   POST_BUILD COMMAND ${CMAKE_STRIP} $<TARGET_FILE:flutter_media_tools_native>)
+
 # Tests
+IF (CMAKE_BUILD_TYPE EQUAL "DEBUG")
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/googletest)
 add_executable(flutter_media_tools_native_tests
         src/tests/buffer/buffer_test.cpp
@@ -79,3 +85,4 @@ add_executable(flutter_media_tools_native_tests
 target_include_directories(flutter_media_tools_native_tests INTERFACE ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 target_link_libraries(flutter_media_tools_native_tests flutter_media_tools_native gtest gtest_main)
 # End tests
+ENDIF ()
