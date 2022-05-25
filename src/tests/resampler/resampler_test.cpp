@@ -62,7 +62,7 @@ void test_resampling(const std::string &input_path,
             out_temp_buffer[channel] = new uint8_t[output_size];
         }
 
-        for (int channel = 0; channel < buffer.size(); channel++) {
+        for (size_t channel = 0; channel < buffer.size(); channel++) {
             in_temp_buffer[channel] = new uint8_t[chunk_size];
 
             for (size_t j = 0; j < chunk_size; j++) {
@@ -89,7 +89,7 @@ void test_resampling(const std::string &input_path,
             delete[] out_temp_buffer[channel];
         }
 
-        for (int channel = 0; channel < buffer.size(); channel++) {
+        for (size_t channel = 0; channel < buffer.size(); channel++) {
             delete[] in_temp_buffer[channel];
         }
 

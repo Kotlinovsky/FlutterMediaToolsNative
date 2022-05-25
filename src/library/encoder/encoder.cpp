@@ -149,7 +149,7 @@ bool configure_encoder_context(const AVCodec *codec,
         context->channel_layout = stream_cfg->channel_layout;
         context->channels = stream_cfg->channels_count;
         context->sample_fmt = stream_cfg->sample_format;
-        context->time_base = (AVRational) {1, stream_cfg->sample_rate};
+        context->time_base = AVRational{1, stream_cfg->sample_rate};
     }
 
     if (avcodec_open2(context, codec, nullptr) < 0) {
@@ -201,6 +201,7 @@ bool build_streams_map(AVFormatContext *format_ctx,
         }
 
         stream->time_base = codec_context->time_base;
+        streams_map[item.first] = stream;
     }
 
     return true;

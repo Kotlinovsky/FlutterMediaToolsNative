@@ -60,8 +60,7 @@ TEST(DecoderTest, UnexpectedErrorWhenCallbackReturnsFalse) {
     int last_result = 0;
 
     while (last_result >= 0) {
-        last_result =
-            decoder_decode(ctx_ref, [](const uint8_t **data, size_t len, auto) { return false; });
+        last_result = decoder_decode(ctx_ref, [](auto, auto, auto) { return false; });
     }
 
     EXPECT_EQ(last_result, DECODER_UNEXPECTED_ERROR);
@@ -118,7 +117,8 @@ void check_decoding(const std::string &in_path,
         write_example_to_file("decoder", example_path, buffer, sample_format, channels_count);
         GTEST_FATAL_FAILURE_("Examples generation mode enabled!");
     } else {
-        std::vector<std::vector<uint8_t>> example_buffer = read_matrix_from_file("decoder", example_path, true);
+        std::vector<std::vector<uint8_t>>
+            example_buffer = read_matrix_from_file("decoder", example_path, true);
         EXPECT_EQ(example_buffer, buffer);
     }
 

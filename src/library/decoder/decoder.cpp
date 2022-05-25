@@ -22,7 +22,7 @@ bool is_all_streams_found(std::unordered_set<AVMediaType> &streams_types,
         types_exists_maps[item] = false;
     }
 
-    for (int i = 0; i < streams_count; ++i) {
+    for (unsigned int i = 0; i < streams_count; ++i) {
         types_exists_maps[streams[i]->codecpar->codec_type] = true;
     }
 
@@ -56,7 +56,7 @@ bool init_decoders(AVStream **streams,
                    std::vector<decoder_stream_ctx *> **contexts_ref) {
     auto contexts = new std::vector<decoder_stream_ctx *>(streams_count, nullptr);
 
-    for (int i = 0; i < streams_count; ++i) {
+    for (unsigned int i = 0; i < streams_count; ++i) {
         AVStream *stream = streams[i];
 
         if (!streams_types.contains(stream->codecpar->codec_type)) {

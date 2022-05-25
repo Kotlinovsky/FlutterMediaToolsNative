@@ -66,7 +66,7 @@ std::vector<std::vector<uint8_t>> read_matrix_from_file(const std::string &path)
     while (input >> current_chunk_length) {
         std::vector<uint8_t> row(current_chunk_length);
 
-        for (int i = 0; i < current_chunk_length; ++i) {
+        for (size_t i = 0; i < current_chunk_length; ++i) {
             input >> row[i];
         }
 

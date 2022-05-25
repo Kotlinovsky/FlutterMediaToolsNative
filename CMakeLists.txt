@@ -4,6 +4,7 @@ set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-Bsymbolic")
 set(CMAKE_CXX_STANDARD 20)
 
 IF (UNIX)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
     SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
     SET(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
@@ -54,10 +55,10 @@ add_library(flutter_media_tools_native SHARED
         src/library/inspector/inspector.hpp
         src/library/inspector/inspector_errors.hpp)
 target_link_libraries(flutter_media_tools_native
+        ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libavformat.a
         ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libavcodec.a
         ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libavdevice.a
         ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libavfilter.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libavformat.a
         ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libavutil.a
         ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libswresample.a
         ${CMAKE_CURRENT_SOURCE_DIR}/deps-tmp/linux/ffmpeg/lib/libswscale.a)
