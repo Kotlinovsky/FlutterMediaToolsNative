@@ -136,3 +136,43 @@ bool write_matrix_to_file(const std::string &path,
     file.close();
     return true;
 }
+
+double matrix_difference(std::vector<std::vector<uint8_t>> &first,
+                         std::vector<std::vector<uint8_t>> &valid) {
+    if (first.size() != valid.size()) {
+        return 1;
+    }
+
+    std::vector<uint8_t> buffer;
+    std::vector<uint8_t> valid_buffer;
+
+    for (const auto &item : first) {
+        for (const auto &byte : item) {
+            buffer.push_back(byte);
+        }
+    }
+
+    for (const auto &item : valid) {
+        for (const auto &byte : item) {
+            valid_buffer.push_back(byte);
+        }
+    }
+
+    return array_difference(buffer, valid_buffer);
+}
+
+double array_difference(std::vector<uint8_t> &first, std::vector<uint8_t> &valid) {
+    if (valid.empty()) {
+        return 1;
+    }
+
+    size_t valid_count = 0;
+
+    for (size_t i = 0; i < std::min(first.size(), valid.size()); ++i) {
+        if (first[i] == valid[i]) {
+            valid_count++;
+        }
+    }
+
+    return 1 - (valid_count / (double) valid.size());
+}

@@ -119,7 +119,7 @@ void check_decoding(const std::string &in_path,
     } else {
         std::vector<std::vector<uint8_t>>
             example_buffer = read_matrix_from_file("decoder", example_path, true);
-        EXPECT_EQ(example_buffer, buffer);
+        EXPECT_LE(matrix_difference(buffer, example_buffer), 0.02);
     }
 
     decoder_free(&ctx_ref);

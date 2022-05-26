@@ -63,7 +63,7 @@ void check_transcoding_to_aac(const std::string &input_file,
     // Сверяем результат
     auto result_buffer = read_array_from_file(output_file_name);
     auto valid_buffer = read_array_from_file(valid_path);
-    EXPECT_EQ(result_buffer, valid_buffer);
+    EXPECT_LE(array_difference(result_buffer, valid_buffer), 0.02);
 }
 
 // Проверяет все варианты транскодирования в AAC

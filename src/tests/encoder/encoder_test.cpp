@@ -159,5 +159,5 @@ TEST(EncoderTest, AacEncoding) {
     // Сначала прочитаем правильный файл
     std::vector<uint8_t> example_buffer = read_array_from_file("encoder", "test.aac", true);
     std::vector<uint8_t> result_buffer = read_array_from_file(path);
-    EXPECT_EQ(example_buffer, result_buffer);
+    EXPECT_LE(array_difference(result_buffer, example_buffer), 0.02);
 }

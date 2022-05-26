@@ -70,7 +70,7 @@ add_custom_command(TARGET flutter_media_tools_native
                    POST_BUILD COMMAND ${CMAKE_STRIP} $<TARGET_FILE:flutter_media_tools_native>)
 
 # Tests
-IF (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+#IF (CMAKE_BUILD_TYPE EQUAL "DEBUG")
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/googletest)
 add_executable(flutter_media_tools_native_tests
         src/tests/buffer/buffer_test.cpp
@@ -85,4 +85,4 @@ add_executable(flutter_media_tools_native_tests
 target_include_directories(flutter_media_tools_native_tests INTERFACE ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 target_link_libraries(flutter_media_tools_native_tests flutter_media_tools_native gtest gtest_main)
 # End tests
-ENDIF ()
+#ENDIF ()
