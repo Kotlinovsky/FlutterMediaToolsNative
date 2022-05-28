@@ -64,7 +64,8 @@ std::vector<std::vector<uint8_t>> decode_audio(const std::string &file_path,
         }
 
         if (avcodec_send_packet(decoder_context, packet) < 0) {
-            av_packet_unref(packet);
+            av_packet_free(&packet);
+            av_frame_free(&frame);
             throw;
         }
 
@@ -80,7 +81,8 @@ std::vector<std::vector<uint8_t>> decode_audio(const std::string &file_path,
 
                 avcodec_free_context(&decoder_context);
                 avformat_close_input(&format_ctx);
-                av_frame_unref(frame);
+                av_packet_free(&packet);
+                av_frame_free(&frame);
                 throw;
             }
 
@@ -111,8 +113,8 @@ std::vector<std::vector<uint8_t>> decode_audio(const std::string &file_path,
     *format = decoder_context->sample_fmt;
     avcodec_free_context(&decoder_context);
     avformat_close_input(&format_ctx);
-    av_packet_unref(packet);
-    av_frame_unref(frame);
+    av_packet_free(&packet);
+    av_frame_free(&frame);
 
     return buffer;
 }

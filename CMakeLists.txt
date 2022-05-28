@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 message("Target system name: ${CMAKE_SYSTEM_NAME}")
 message("Target system architecture: ${CMAKE_SYSTEM_PROCESSOR}")
+message("Build type: ${CMAKE_BUILD_TYPE}")
 
 # Compile FFmpeg
 IF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -70,8 +71,7 @@ add_custom_command(TARGET flutter_media_tools_native
                    POST_BUILD COMMAND ${CMAKE_STRIP} $<TARGET_FILE:flutter_media_tools_native>)
 
 # Tests
-#IF (${CMAKE_BUILD_TYPE} EQUAL "Debug")
-add_executable(audiomatch deps/FFmpeg/tests/audiomatch.c)
+IF (${CMAKE_BUILD_TYPE} MATCHES "Debug")
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/googletest)
 add_executable(flutter_media_tools_native_tests
         src/tests/buffer/buffer_test.cpp
@@ -87,6 +87,5 @@ add_executable(flutter_media_tools_native_tests
         src/tests/main.cpp)
 target_include_directories(flutter_media_tools_native_tests INTERFACE ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 target_link_libraries(flutter_media_tools_native_tests flutter_media_tools_native gtest gtest_main)
-add_dependencies(flutter_media_tools_native_tests audiomatch)
+ENDIF ()
 # End tests
-#ENDIF ()
