@@ -4,6 +4,7 @@
 #include "../helpers/resources_helper.hpp"
 #include "../../library/encoder/encoder.hpp"
 #include "../../library/encoder/encoder_errors.hpp"
+#include "../helpers/audio_helper.hpp"
 
 extern "C" {
 #include <libavutil/channel_layout.h>
@@ -157,7 +158,6 @@ TEST(EncoderTest, AacEncoding) {
     }
 
     // Сначала прочитаем правильный файл
-    std::vector<uint8_t> example_buffer = read_array_from_file("encoder", "test.aac", true);
-    std::vector<uint8_t> result_buffer = read_array_from_file(path);
-    EXPECT_LE(array_difference(result_buffer, example_buffer), 0.02);
+    std::string example_path = get_file_path("encoder", "test.aac", true);
+    EXPECT_TRUE(is_audio_files_matches(example_path, path));
 }

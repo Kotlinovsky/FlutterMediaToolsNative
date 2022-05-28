@@ -82,30 +82,6 @@ std::vector<std::vector<uint8_t>> read_matrix_from_file(const std::string &main_
     return read_matrix_from_file(get_file_path(main_folder, path, read_valid));
 }
 
-std::vector<uint8_t> read_array_from_file(const std::string &path) {
-    std::ifstream input(path);
-
-    if (input.bad()) {
-        throw;
-    }
-
-    std::vector<uint8_t> buffer;
-    uint8_t current_byte;
-    input >> std::noskipws;
-
-    while (input >> current_byte) {
-        buffer.push_back(current_byte);
-    }
-
-    return buffer;
-}
-
-std::vector<uint8_t> read_array_from_file(const std::string &main_folder,
-                                          const std::string &path,
-                                          bool read_valid) {
-    return read_array_from_file(get_file_path(main_folder, path, read_valid));
-}
-
 bool write_matrix_to_file(const std::string &path,
                           std::vector<std::vector<uint8_t>> &data,
                           bool write_length) {
@@ -135,44 +111,4 @@ bool write_matrix_to_file(const std::string &path,
 
     file.close();
     return true;
-}
-
-double matrix_difference(std::vector<std::vector<uint8_t>> &first,
-                         std::vector<std::vector<uint8_t>> &valid) {
-    if (first.size() != valid.size()) {
-        return 1;
-    }
-
-    std::vector<uint8_t> buffer;
-    std::vector<uint8_t> valid_buffer;
-
-    for (const auto &item : first) {
-        for (const auto &byte : item) {
-            buffer.push_back(byte);
-        }
-    }
-
-    for (const auto &item : valid) {
-        for (const auto &byte : item) {
-            valid_buffer.push_back(byte);
-        }
-    }
-
-    return array_difference(buffer, valid_buffer);
-}
-
-double array_difference(std::vector<uint8_t> &first, std::vector<uint8_t> &valid) {
-    if (valid.empty()) {
-        return 1;
-    }
-
-    size_t valid_count = 0;
-
-    for (size_t i = 0; i < std::min(first.size(), valid.size()); ++i) {
-        if (first[i] == valid[i]) {
-            valid_count++;
-        }
-    }
-
-    return 1 - (valid_count / (double) valid.size());
 }

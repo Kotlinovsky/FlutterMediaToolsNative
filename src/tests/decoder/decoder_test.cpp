@@ -7,7 +7,7 @@ extern "C" {
 }
 
 #include "gtest/gtest.h"
-#include <fstream>
+#include "../helpers/audio_helper.hpp"
 
 // True, если нужно сгенерировать файлы шаблонов
 bool decoder_generate_examples = false;
@@ -119,7 +119,7 @@ void check_decoding(const std::string &in_path,
     } else {
         std::vector<std::vector<uint8_t>>
             example_buffer = read_matrix_from_file("decoder", example_path, true);
-        EXPECT_LE(matrix_difference(buffer, example_buffer), 0.02);
+        EXPECT_TRUE(is_audio_matches(buffer, example_buffer, sample_format));
     }
 
     decoder_free(&ctx_ref);

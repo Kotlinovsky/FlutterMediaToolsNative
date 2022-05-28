@@ -70,7 +70,8 @@ add_custom_command(TARGET flutter_media_tools_native
                    POST_BUILD COMMAND ${CMAKE_STRIP} $<TARGET_FILE:flutter_media_tools_native>)
 
 # Tests
-#IF (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+#IF (${CMAKE_BUILD_TYPE} EQUAL "Debug")
+add_executable(audiomatch deps/FFmpeg/tests/audiomatch.c)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/googletest)
 add_executable(flutter_media_tools_native_tests
         src/tests/buffer/buffer_test.cpp
@@ -81,8 +82,11 @@ add_executable(flutter_media_tools_native_tests
         src/tests/inspector/inspector_test.cpp
         src/tests/helpers/resources_helper.cpp
         src/tests/helpers/resources_helper.hpp
+        src/tests/helpers/audio_helper.cpp
+        src/tests/helpers/audio_helper.hpp
         src/tests/main.cpp)
 target_include_directories(flutter_media_tools_native_tests INTERFACE ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 target_link_libraries(flutter_media_tools_native_tests flutter_media_tools_native gtest gtest_main)
+add_dependencies(flutter_media_tools_native_tests audiomatch)
 # End tests
 #ENDIF ()

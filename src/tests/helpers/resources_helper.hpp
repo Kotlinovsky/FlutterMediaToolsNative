@@ -30,21 +30,6 @@ std::vector<std::vector<uint8_t>> read_matrix_from_file(const std::string &main_
                                                         const std::string &path,
                                                         bool read_valid);
 
-// Читает массив из файла
-std::vector<uint8_t> read_array_from_file(const std::string &path);
-
-// Читает массив из файла
-std::vector<uint8_t> read_array_from_file(const std::string &main_folder,
-                                          const std::string &path,
-                                          bool read_valid);
-
-// Выдает коэффициент разности между матрицами
-double matrix_difference(std::vector<std::vector<uint8_t>> &first,
-                         std::vector<std::vector<uint8_t>> &valid);
-
-// Выдает коэффициент разности между массивами
-double array_difference(std::vector<uint8_t> &first, std::vector<uint8_t> &valid);
-
 // Записывает матрицу в файл
 bool write_matrix_to_file(const std::string &path, std::vector<std::vector<uint8_t>> &data,
                           bool write_length);

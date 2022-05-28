@@ -3,6 +3,7 @@
 #include "../helpers/resources_helper.hpp"
 #include "../../library/transcoder/transcoder.hpp"
 #include "../../library/transcoder/transcoder_errors.hpp"
+#include "../helpers/audio_helper.hpp"
 
 // Включает режим генерации образцов
 bool transcoder_generate_examples = false;
@@ -59,11 +60,7 @@ void check_transcoding_to_aac(const std::string &input_file,
     int result = transcoder_do_audio(input_path.c_str(), output_file_name.c_str(), start_moment_in_ms,
                                      end_moment_in_ms);
     EXPECT_EQ(result, 0);
-
-    // Сверяем результат
-    auto result_buffer = read_array_from_file(output_file_name);
-    auto valid_buffer = read_array_from_file(valid_path);
-    EXPECT_LE(array_difference(result_buffer, valid_buffer), 0.02);
+    EXPECT_TRUE(is_audio_files_matches(output_file_name, valid_path));
 }
 
 // Проверяет все варианты транскодирования в AAC

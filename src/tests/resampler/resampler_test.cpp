@@ -7,6 +7,7 @@ extern "C" {
 
 #include "../../library/resampler/resampler.hpp"
 #include "../helpers/resources_helper.hpp"
+#include "../helpers/audio_helper.hpp"
 
 // Включает режим генерации образцов
 bool resampler_generate_examples = false;
@@ -108,7 +109,7 @@ void test_resampling(const std::string &input_path,
     } else {
         auto valid_buffer = read_matrix_from_file("resampler", output_path, true);
         resampler_free(&context);
-        EXPECT_EQ(result, valid_buffer);
+        EXPECT_TRUE(is_audio_matches(result, valid_buffer, output_format));
     }
 }
 
