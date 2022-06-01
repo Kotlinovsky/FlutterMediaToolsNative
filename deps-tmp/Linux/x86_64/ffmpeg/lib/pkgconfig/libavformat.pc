@@ -6,7 +6,7 @@ includedir=/home/kotlinovsky/Projects/flutter_media_tools_native/deps-tmp/Linux/
 Name: libavformat
 Description: FFmpeg container format library
 Version: 59.16.100
-Requires: libavcodec >= 59.18.100, libavutil >= 57.17.100
+Requires: libavcodec >= 59.18.100, libswresample >= 4.3.100, libavutil >= 57.17.100
 Requires.private: 
 Conflicts:
 Libs: -L${libdir}  -lavformat -lm -latomic

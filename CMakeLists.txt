@@ -19,8 +19,8 @@ set(FFMPEG_COMMAND ./configure
         --disable-everything
         --disable-autodetect
         --disable-network
-        --enable-demuxer="wav,ogg,mp3,aac"
-        --enable-decoder="pcm*,opus,vorbis,flac,mp3,aac"
+        --enable-demuxer=wav,ogg,mp3,aac
+        --enable-decoder=pcm*,opus,vorbis,flac,mp3,aac
         --enable-muxer=adts
         --enable-encoder=aac
         --enable-filter=aresample

@@ -6,7 +6,7 @@ includedir=/home/kotlinovsky/Projects/flutter_media_tools_native/deps-tmp/Linux/
 Name: libavcodec
 Description: FFmpeg codec library
 Version: 59.18.100
-Requires: libavutil >= 57.17.100
+Requires: libswresample >= 4.3.100, libavutil >= 57.17.100
 Requires.private: 
 Conflicts:
 Libs: -L${libdir}  -lavcodec -pthread -lm -latomic
